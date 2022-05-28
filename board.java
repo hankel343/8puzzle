@@ -156,6 +156,7 @@ public class Board {
 
     }
 
+    // Helper function for neighbors()
     private void swap(int i, int j, int n, int m) {
         int temp = board[i][j];
         board[i][j] = board[n][m];
