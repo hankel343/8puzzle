@@ -1,0 +1,7 @@
+*.txt
+*.iml
+*.gitignore
+*.gitignore.un~
+*.lift
+*.idea
+*.png
