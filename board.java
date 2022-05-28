@@ -1,3 +1,5 @@
+import edu.princeton.cs.algs4.Stack;
+
 import static java.lang.Math.abs;
 
 public class Board {
@@ -89,7 +91,7 @@ public class Board {
 
     // does this board equal y?
     public boolean equals(Object y) {
-        if (this.dimension() != ((Board) y).dimension()) {
+        if (y == null || this.dimension() != ((Board) y).dimension()) {
             return false;
         }
 
@@ -114,7 +116,14 @@ public class Board {
 
     // all neighboring boards
     public Iterable<Board> neighbors() {
+        Stack<Board> boardStack;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (board[i][j] == 0) {
 
+                }
+            }
+        }
     }
 
     // a board that is obtained by exchanging any pair of tiles
