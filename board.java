@@ -50,7 +50,15 @@ public class Board {
 
     // number of tiles out of place
     public int hamming() {
+        int cnt = 0;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (board[i][j] != goal[i][j])
+                    cnt++;
+            }
+        }
 
+        return cnt;
     }
 
     // sum of Manhattan distances between tiles and goal
