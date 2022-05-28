@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class Board {
     private final int[][] board;
     private final int[][] goal;
@@ -27,12 +25,22 @@ public class Board {
 
     // string representation of this board
     public String toString() {
-        ArrayList<Integer> s = new ArrayList<Integer>(N * N);
-        for (int i = 0; i < N; i++)
+        String s = Integer.toString(N) + "\n";
+        for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                s[i * N + j] = board[i][j];
+                if (i == N - 1 && j == N - 1) {
+                    s += Integer.toString(board[i][j]);
+                }
+                else if (j == N - 1) {
+                    s += Integer.toString(board[i][j]) + "\n";
+                }
+                else {
+                    s += Integer.toString(board[i][j]) + " ";
+                }
             }
-        return s.toString();
+        }
+
+        return s;
     }
 
     // board dimension n
