@@ -1,10 +1,13 @@
-public class board {
+import java.util.ArrayList;
+
+public class Board {
     private final int[][] board;
+    private int N; //Linear dimension of the board
 
     // create a board from an n-by-n array of tiles,
     // where tiles[row][col] = tile at (row, col)
     public Board(int[][] tiles) {
-        int N = tiles.length(); //Get dimension of given board
+        N = tiles.length(); //Get dimension of given board
         board = new int[N][N];  //Init board to given dimension
         for (int i = 0; i < N; i++) //Copy elements
             for (int j = 0; j < N; j++)
@@ -13,12 +16,17 @@ public class board {
 
     // string representation of this board
     public String toString() {
-
+        ArrayList<Integer> s = new ArrayList<Integer>(N * N);
+        for (int i = 0; i < N; i++)
+            for (int j = 0; j < N; j++) {
+                s[i * N + j] = board[i][j];
+            }
+        return s.toString();
     }
 
     // board dimension n
     public int dimension() {
-
+        return N;
     }
 
     // number of tiles out of place
