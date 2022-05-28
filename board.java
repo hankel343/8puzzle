@@ -80,7 +80,27 @@ public class Board {
 
     // does this board equal y?
     public boolean equals(Object y) {
+        if (this.dimension() != ((Board) y).dimension()) {
+            return false;
+        }
 
+        /* Compare by tile */
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (board[i][j] != ((Board) y).tileAt(i, j))
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
+    // Return element in the board at the specified indices
+    public int tileAt(int i, int j) {
+        if (i >= N && j >= N)
+            throw new IllegalArgumentException();
+
+        return board[i][j];
     }
 
     // all neighboring boards
