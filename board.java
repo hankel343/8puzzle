@@ -1,3 +1,5 @@
+import static java.lang.Math.abs;
+
 public class Board {
     private final int[][] board;
     private final int[][] goal;
@@ -63,7 +65,14 @@ public class Board {
 
     // sum of Manhattan distances between tiles and goal
     public int manhattan() {
+        int sum = 0;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                sum += abs(manDistX(board[i][j]) - j) + abs(manDistY(board[i][j]) - i);
+            }
+        }
 
+        return sum;
     }
 
     // is this board the goal board?
@@ -111,6 +120,37 @@ public class Board {
     // a board that is obtained by exchanging any pair of tiles
     public Board twin() {
 
+    }
+
+    //Helper function of manhattan()
+    private int manDistY(int val) {
+        int i = N - 1;
+        while (goal[i][0] > val) {
+            i--;
+        }
+        return i;
+    }
+
+    //Helper function of manhattan()
+    private int manDistX(int val) {
+        int j = 0, i = 0;
+        if (val > goal[N - 1][0]) {
+            i = 1;
+            while (val > goal[N - 1][i])
+                i++;
+        }
+
+        while (val > goal[j][i]) {
+            if (val > goal[j][N - 1]) {
+                j += 1;
+            }
+            else {
+                while (val > goal[j][i])
+                    i++;
+            }
+        }
+
+        return i;
     }
 
     // unit testing (not graded)
