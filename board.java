@@ -2,16 +2,27 @@ import java.util.ArrayList;
 
 public class Board {
     private final int[][] board;
+    private final int[][] goal;
     private int N; //Linear dimension of the board
 
     // create a board from an n-by-n array of tiles,
     // where tiles[row][col] = tile at (row, col)
     public Board(int[][] tiles) {
-        N = tiles.length(); //Get dimension of given board
-        board = new int[N][N];  //Init board to given dimension
-        for (int i = 0; i < N; i++) //Copy elements
-            for (int j = 0; j < N; j++)
-                board[i][j] = tiles[i][j];
+        N = tiles[0].length;
+
+        /* Init boards */
+        board = tiles;
+        goal = new int[N][N];
+
+        /* Create boards */
+        for (int i = 0; i < N; i++)
+            for (int j = 0; j < N; j++) {
+                goal[i][j] = i * N + j + 1; // Row-major order
+                if (i == N - 1 && j == N - 1) // Save the last spot for 0 (i.e. empty space)
+                    break;
+            }
+
+        goal[N - 1][N - 1] = 0;
     }
 
     // string representation of this board
