@@ -1,4 +1,5 @@
 import edu.princeton.cs.algs4.Stack;
+import edu.princeton.cs.algs4.StdRandom;
 
 import static java.lang.Math.abs;
 
@@ -116,7 +117,7 @@ public class Board {
 
     // all neighboring boards
     public Iterable<Board> neighbors() {
-        Stack<Board> boardStack = new Stack<Board>;
+        Stack<Board> boardStack = new Stack<Board>();
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 if (board[i][j] == 0) {
@@ -147,13 +148,23 @@ public class Board {
                 }
             }
         }
-
         return boardStack;
     }
 
     // a board that is obtained by exchanging any pair of tiles
     public Board twin() {
-
+        Board twinBoard = new Board(board);
+        int i = StdRandom.uniform(N), j = StdRandom.uniform(N);
+        int n = StdRandom.uniform(N), m = StdRandom.uniform(N);
+        while (twinBoard.tileAt(i, j) == 0 || twinBoard.tileAt(n, m) == 0) {
+            i = StdRandom.uniform(N);
+            j = StdRandom.uniform(N);
+            n = StdRandom.uniform(N);
+            m = StdRandom.uniform(N);
+        }
+        
+        twinBoard.swap(i, j, n, m);
+        return twinBoard;
     }
 
     // Helper function for neighbors()
