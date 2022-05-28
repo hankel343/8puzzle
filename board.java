@@ -116,19 +116,50 @@ public class Board {
 
     // all neighboring boards
     public Iterable<Board> neighbors() {
-        Stack<Board> boardStack;
+        Stack<Board> boardStack = new Stack<Board>;
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 if (board[i][j] == 0) {
+                    Board neighbor;
+                    if (i > 0) { // Row above
+                        neighbor = new Board(board);
+                        neighbor.swap(i, j, i - 1, j);
+                        boardStack.push(neighbor);
+                    }
 
+                    if (i < N - 1) { // Row below
+                        neighbor = new Board(board);
+                        neighbor.swap(i, j, i + 1, j);
+                        boardStack.push(neighbor);
+                    }
+
+                    if (j > 0) { // Left column
+                        neighbor = new Board(board);
+                        neighbor.swap(i, j, i, j - 1);
+                        boardStack.push(neighbor);
+                    }
+
+                    if (j < N - 1) { // Right column
+                        neighbor = new Board(board);
+                        neighbor.swap(i, j, i, j + 1);
+                        boardStack.push(neighbor);
+                    }
                 }
             }
         }
+
+        return boardStack;
     }
 
     // a board that is obtained by exchanging any pair of tiles
     public Board twin() {
 
+    }
+
+    private void swap(int i, int j, int n, int m) {
+        int temp = board[i][j];
+        board[i][j] = board[n][m];
+        board[n][m] = temp;
     }
 
     //Helper function of manhattan()
