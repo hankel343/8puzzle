@@ -1,5 +1,4 @@
 import edu.princeton.cs.algs4.MinPQ;
-import edu.princeton.cs.algs4.Stack;
 
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -7,9 +6,16 @@ import java.util.LinkedList;
 public class Solver {
     private class SearchNode {
         Board board;
+        SearchNode parent;
         int moves;
         int priority;
-        Board prev;
+
+        SearchNode(Board board, SearchNode parent) {
+            this.board = board;
+            this.parent = parent;
+            moves = 0;
+            priority = board.manhattan();
+        }
     }
 
     private class PriorityOrder implements Comparator<SearchNode> {
@@ -20,61 +26,72 @@ public class Solver {
         }
     }
 
-    private final MinPQ<SearchNode> pq;
     private final LinkedList<Board> solutionSeq;
-    private SearchNode currNode;
+    private boolean solvable = false;
+    private SearchNode solution;
 
     // find a solution to the initial board (using the A* algorithm)
     public Solver(Board initial) {
         if (initial == null)
             throw new IllegalArgumentException();
 
-        /* Create MinPQ w/ min priority comparator */
-        pq = new MinPQ<SearchNode>(priorityOrder());
+        /* Create MinPQs w/ min priority comparator */
+        MinPQ<SearchNode> pq = new MinPQ<SearchNode>(priorityOrder());
+        MinPQ<SearchNode> pqTwin = new MinPQ<SearchNode>(priorityOrder());
+
+        /* Insert initial board and twin into PQs */
+        pq.insert(new SearchNode(initial, null));
+        pqTwin.insert(new SearchNode(initial.twin(), null));
 
         /* LinkedList for storing sequence of boards to solution */
         solutionSeq = new LinkedList<Board>();
 
-        /* Initialize first search node object */
-        SearchNode initNode = new SearchNode();
-        initNode.board = initial;
-        initNode.moves = 0;
-        initNode.priority = initial.manhattan();
-        initNode.prev = null;
+        while (true) {
+            SearchNode tmp = pq.delMin();
+            if (tmp.board.isGoal()) {
+                solvable = true;
+                solutionSeq.add(tmp.board);
+                solution = tmp;
+                return;
+            }
 
-        /* A* search algorithm */
-        pq.insert(initNode);
-        while (!pq.min().board.isGoal()) {
-            currNode = pq.delMin();
-            solutionSeq.add(currNode.board);
-            Stack<Board> neighborStack = (Stack<Board>) currNode.board.neighbors();
-            while (!neighborStack.isEmpty()) {
-                Board neighbor = neighborStack.pop();
-                if (!currNode.prev.equals(neighbor)) { // Optimization: Disallow previous boards
-                    SearchNode newNode = new SearchNode();
-                    newNode.board = neighbor;
-                    newNode.moves++;
-                    newNode.priority = neighbor.manhattan();
-                    pq.insert(newNode);
-                }
+            SearchNode tmptwin = pqTwin.delMin();
+            if (tmptwin.board.isGoal()) return;
+
+            for (Board neighbor : tmp.board.neighbors()) {
+                if (tmp.parent != null && neighbor.equals(tmp.parent))
+                    continue;
+                pq.insert(new SearchNode(neighbor, tmp));
+            }
+
+            for (Board neighbor : tmptwin.board.neighbors()) {
+                if (tmp.parent != null && neighbor.equals(tmptwin.parent.board))
+                    continue;
+                pqTwin.insert(new SearchNode(neighbor, tmptwin));
             }
         }
+
     }
 
     // is the initial board solvable? (see below)
     public boolean isSolvable() {
-
+        return solvable;
     }
 
     // min number of moves to solve initial board; -1 if unsolvable
     public int moves() {
-        if (isSolvable())
-            return
+        if (solvable)
+            return solution.moves;
+
+        return -1;
     }
 
     // sequence of boards in a shortest solution; null if unsolvable
     public Iterable<Board> solution() {
-        return solutionSeq;
+        if (solvable)
+            return solutionSeq;
+
+        return null;
     }
 
     public Comparator<SearchNode> priorityOrder() {
