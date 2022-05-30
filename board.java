@@ -68,7 +68,10 @@ public class Board {
         int sum = 0;
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                sum += Math.abs(manDistX(board[i][j]) - j) + Math.abs(manDistY(board[i][j]) - i);
+                if (board[i][j] != 0) {
+                    sum += Math.abs(manDistX(board[i][j]) - j) + Math
+                            .abs(manDistY(board[i][j]) - i);
+                }
             }
         }
 
@@ -214,6 +217,6 @@ public class Board {
         };
 
         Board test = new Board(tiles);
-        test.manhattan();
+        System.out.println(test.manhattan());
     }
 }
