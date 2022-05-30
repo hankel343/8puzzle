@@ -55,7 +55,7 @@ public class Board {
         int cnt = 0;
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (board[i][j] != goal[i][j])
+                if (board[i][j] != goal[i][j] && board[i][j] != 0)
                     cnt++;
             }
         }
@@ -218,5 +218,6 @@ public class Board {
 
         Board test = new Board(tiles);
         System.out.println(test.manhattan());
+        System.out.println(test.hamming());
     }
 }
