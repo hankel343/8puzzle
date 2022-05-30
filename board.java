@@ -104,6 +104,7 @@ public class Board {
         if (y.getClass() != this.getClass()) return false;
 
         Board that = (Board) y;
+        if (this.N != that.N) return false;
         /* Compare by tile */
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
