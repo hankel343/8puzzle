@@ -4,6 +4,7 @@ import edu.princeton.cs.algs4.StdRandom;
 public class Board {
     private final int[][] board;
     private final int[][] goal;
+    private Board twin;
     private int N; //Linear dimension of the board
 
     // create a board from an n-by-n array of tiles,
@@ -14,6 +15,7 @@ public class Board {
         /* Init boards */
         board = new int[N][N];
         goal = new int[N][N];
+        twin = null;
 
         /* Create copy of ctor argument */
         for (int i = 0; i < N; i++) {
@@ -162,6 +164,9 @@ public class Board {
 
     // a board that is obtained by exchanging any pair of tiles
     public Board twin() {
+        if (twin != null)
+            return twin;
+
         Board twinBoard = new Board(board);
         int i = StdRandom.uniform(N), j = StdRandom.uniform(N);
         int n = StdRandom.uniform(N), m = StdRandom.uniform(N);
@@ -173,6 +178,7 @@ public class Board {
         }
 
         twinBoard.swap(i, j, n, m);
+        twin = twinBoard;
         return twinBoard;
     }
 
