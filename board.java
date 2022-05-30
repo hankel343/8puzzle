@@ -15,13 +15,14 @@ public class Board {
         board = new int[N][N];
         goal = new int[N][N];
 
-        /* Create new boards */
+        /* Create copy of ctor argument */
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 board[i][j] = tiles[i][j];
             }
         }
 
+        /* Create goal board */
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 goal[i][j] = i * N + j + 1; // Row-major order
