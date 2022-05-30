@@ -5,9 +5,6 @@ import java.util.Comparator;
 import java.util.LinkedList;
 
 public class Solver {
-    private final MinPQ<SearchNode> pq;
-    private final LinkedList<Board> solutionSeq;
-
     private class SearchNode {
         Board board;
         int moves;
@@ -22,6 +19,10 @@ public class Solver {
             else return 0;
         }
     }
+
+    private final MinPQ<SearchNode> pq;
+    private final LinkedList<Board> solutionSeq;
+    private SearchNode currNode;
 
     // find a solution to the initial board (using the A* algorithm)
     public Solver(Board initial) {
@@ -42,9 +43,8 @@ public class Solver {
         initNode.prev = null;
 
         /* A* search algorithm */
-        SearchNode currNode = initNode;
         pq.insert(initNode);
-        while (!currNode.board.isGoal()) {
+        while (!pq.min().board.isGoal()) {
             currNode = pq.delMin();
             solutionSeq.add(currNode.board);
             Stack<Board> neighborStack = (Stack<Board>) currNode.board.neighbors();
