@@ -25,11 +25,8 @@
  *
  ******************************************************************************/
 
-import edu.princeton.cs.algs4.In;
-import edu.princeton.cs.algs4.StdOut;
-
 public class PuzzleChecker {
-
+    /*
     public static void main(String[] args) {
 
         // for each command-line argument
@@ -50,5 +47,8 @@ public class PuzzleChecker {
             Solver solver = new Solver(initial);
             StdOut.println(filename + ": " + solver.moves());
         }
-    }
+      }
+
+     */
 }
+

@@ -15,12 +15,10 @@ public class Board {
         board = tiles;
         goal = new int[N][N];
 
-        /* Create boards */
+        /* Create goal board */
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 goal[i][j] = i * N + j + 1; // Row-major order
-                if (i == N - 1 && j == N - 1) // Save the last spot for 0 (i.e. empty space)
-                    break;
             }
         }
 
@@ -206,6 +204,12 @@ public class Board {
 
     // unit testing (not graded)
     public static void main(String[] args) {
+        int[][] tiles = {
+                { 8, 1, 7 },
+                { 5, 0, 3 },
+                { 2, 4, 6 }
+        };
 
+        Board test = new Board(tiles);
     }
 }
