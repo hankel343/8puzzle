@@ -12,10 +12,10 @@ public class Solver {
         int moves;
         int priority;
 
-        SearchNode(Board board, SearchNode parent) {
+        SearchNode(Board board, SearchNode parent, int moveCnt) {
             this.board = board;
             this.parent = parent;
-            moves = 0;
+            moves = moveCnt;
             priority = board.manhattan();
         }
     }
@@ -42,8 +42,8 @@ public class Solver {
         MinPQ<SearchNode> pqTwin = new MinPQ<SearchNode>(priorityOrder());
 
         /* Insert initial board and twin into PQs */
-        pq.insert(new SearchNode(initial, null));
-        pqTwin.insert(new SearchNode(initial.twin(), null));
+        pq.insert(new SearchNode(initial, null, 0));
+        pqTwin.insert(new SearchNode(initial.twin(), null, 0));
 
         /* LinkedList for storing sequence of boards to solution */
         solutionSeq = new LinkedList<Board>();
@@ -56,20 +56,21 @@ public class Solver {
                 solution = tmp;
                 return;
             }
+            solutionSeq.add(tmp.board);
 
             SearchNode tmptwin = pqTwin.delMin();
             if (tmptwin.board.isGoal()) return;
 
             for (Board neighbor : tmp.board.neighbors()) {
-                if (tmp.parent != null && neighbor.equals(tmp.parent))
+                if (tmp.parent != null && neighbor.equals(tmp.parent.board))
                     continue;
-                pq.insert(new SearchNode(neighbor, tmp));
+                pq.insert(new SearchNode(neighbor, tmp, tmp.moves + 1));
             }
 
             for (Board neighbor : tmptwin.board.neighbors()) {
                 if (tmp.parent != null && neighbor.equals(tmptwin.parent.board))
                     continue;
-                pqTwin.insert(new SearchNode(neighbor, tmptwin));
+                pqTwin.insert(new SearchNode(neighbor, tmptwin, tmptwin.moves + 1));
             }
         }
 
