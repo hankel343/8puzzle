@@ -97,7 +97,7 @@ public class Solver {
         return null;
     }
 
-    public Comparator<SearchNode> priorityOrder() {
+    private Comparator<SearchNode> priorityOrder() {
         return new PriorityOrder();
     }
 

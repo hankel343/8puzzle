@@ -115,7 +115,7 @@ public class Board {
     }
 
     // Return element in the board at the specified indices
-    public int tileAt(int i, int j) {
+    private int tileAt(int i, int j) {
         if (i >= N || j >= N)
             throw new IllegalArgumentException();
 
