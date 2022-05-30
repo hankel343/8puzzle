@@ -99,14 +99,15 @@ public class Board {
 
     // does this board equal y?
     public boolean equals(Object y) {
-        if (y == null || this.dimension() != ((Board) y).dimension()) {
-            return false;
-        }
+        if (y == this) return true;
+        if (y == null) return false;
+        if (y.getClass() != this.getClass()) return false;
 
+        Board that = (Board) y;
         /* Compare by tile */
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (board[i][j] != ((Board) y).tileAt(i, j))
+                if (board[i][j] != that.tileAt(i, j))
                     return false;
             }
         }

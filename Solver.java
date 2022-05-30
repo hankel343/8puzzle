@@ -73,7 +73,6 @@ public class Solver {
                 pqTwin.insert(new SearchNode(neighbor, tmptwin, tmptwin.moves + 1));
             }
         }
-
     }
 
     // is the initial board solvable? (see below)
