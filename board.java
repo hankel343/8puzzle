@@ -1,8 +1,6 @@
 import edu.princeton.cs.algs4.Stack;
 import edu.princeton.cs.algs4.StdRandom;
 
-import static java.lang.Math.abs;
-
 public class Board {
     private final int[][] board;
     private final int[][] goal;
@@ -18,12 +16,13 @@ public class Board {
         goal = new int[N][N];
 
         /* Create boards */
-        for (int i = 0; i < N; i++)
+        for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 goal[i][j] = i * N + j + 1; // Row-major order
                 if (i == N - 1 && j == N - 1) // Save the last spot for 0 (i.e. empty space)
                     break;
             }
+        }
 
         goal[N - 1][N - 1] = 0;
     }
@@ -71,7 +70,7 @@ public class Board {
         int sum = 0;
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                sum += abs(manDistX(board[i][j]) - j) + abs(manDistY(board[i][j]) - i);
+                sum += Math.abs(manDistX(board[i][j]) - j) + Math.abs(manDistY(board[i][j]) - i);
             }
         }
 
@@ -162,7 +161,7 @@ public class Board {
             n = StdRandom.uniform(N);
             m = StdRandom.uniform(N);
         }
-        
+
         twinBoard.swap(i, j, n, m);
         return twinBoard;
     }
