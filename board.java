@@ -173,6 +173,9 @@ public class Board {
 
     //Helper function of manhattan()
     private int manDistY(int val) {
+        if (val == 0)
+            return N - 1;
+
         int i = N - 1;
         while (goal[i][0] > val) {
             i--;
@@ -188,28 +191,29 @@ public class Board {
             while (val > goal[N - 1][i])
                 i++;
         }
-
-        while (val > goal[j][i]) {
-            if (val > goal[j][N - 1]) {
-                j += 1;
-            }
-            else {
-                while (val > goal[j][i])
-                    i++;
+        else {
+            while (val > goal[j][i]) {
+                if (val > goal[j][N - 1]) {
+                    j += 1;
+                }
+                else {
+                    while (val > goal[j][i])
+                        i++;
+                }
             }
         }
-
         return i;
     }
 
     // unit testing (not graded)
     public static void main(String[] args) {
         int[][] tiles = {
-                { 8, 1, 7 },
-                { 5, 0, 3 },
-                { 2, 4, 6 }
+                { 8, 1, 3 },
+                { 4, 0, 2 },
+                { 7, 6, 5 }
         };
 
         Board test = new Board(tiles);
+        test.manhattan();
     }
 }
