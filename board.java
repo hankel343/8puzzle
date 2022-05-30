@@ -12,10 +12,16 @@ public class Board {
         N = tiles[0].length;
 
         /* Init boards */
-        board = tiles;
+        board = new int[N][N];
         goal = new int[N][N];
 
-        /* Create goal board */
+        /* Create new boards */
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                board[i][j] = tiles[i][j];
+            }
+        }
+
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 goal[i][j] = i * N + j + 1; // Row-major order
@@ -31,7 +37,7 @@ public class Board {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 if (i == N - 1 && j == N - 1) {
-                    s += Integer.toString(board[i][j]);
+                    s += Integer.toString(board[i][j]) + "\n";
                 }
                 else if (j == N - 1) {
                     s += Integer.toString(board[i][j]) + "\n";
@@ -216,8 +222,10 @@ public class Board {
                 { 7, 6, 5 }
         };
 
-        Board test = new Board(tiles);
-        System.out.println(test.manhattan());
-        System.out.println(test.hamming());
+        int[][] tiles2 = {
+                { 8, 1, 3 },
+                { 4, 0, 2 },
+                { 7, 6, 5 }
+        };
     }
 }
