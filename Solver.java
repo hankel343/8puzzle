@@ -22,9 +22,12 @@ public class Solver {
 
     private class PriorityOrder implements Comparator<SearchNode> {
         public int compare(SearchNode a, SearchNode b) {
-            if (a.priority < b.priority) return -1;
-            else if (a.priority > b.priority) return 1;
+            return Integer.compare(a.priority + a.moves, b.priority + b.moves);
+            /*
+            if (a.priority + a.moves < b.priority + b.moves) return -1;
+            else if (a.priority + a.moves > b.priority + b.moves) return 1;
             else return 0;
+             */
         }
     }
 

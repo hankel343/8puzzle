@@ -100,7 +100,7 @@ public class Board {
                 if (i == N - 1 && j == N - 1 && board[i][j] != 0) {
                     return false;
                 }
-                else if (board[i][j] != 0 && board[i][j] != i * N + j + 1) {
+                else if (i != N - 1 && j == N - 1 && board[i][j] != i * N + j + 1) {
                     return false;
                 }
             }
