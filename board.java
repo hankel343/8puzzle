@@ -3,7 +3,7 @@ import edu.princeton.cs.algs4.StdRandom;
 
 public class Board {
     private final int[][] board;
-    private Board twinBoard;
+    private Board twinBoard = null;
     private int N; //Linear dimension of the board
 
     // create a board from an n-by-n array of tiles,
@@ -20,8 +20,6 @@ public class Board {
                 board[i][j] = tiles[i][j];
             }
         }
-
-        twinBoard = twin();
     }
 
     // string representation of this board
@@ -66,7 +64,6 @@ public class Board {
         return cnt;
     }
 
-    /* REFACTOR GOAL BOARD */
     // sum of Manhattan distances between tiles and goal
     public int manhattan() {
         int sum = 0;
@@ -183,10 +180,10 @@ public class Board {
         if (twinBoard != null)
             return twinBoard;
 
-        Board newTwin = new Board(board);
+        twinBoard = new Board(board);
         int i = StdRandom.uniform(N), j = StdRandom.uniform(N);
         int n = StdRandom.uniform(N), m = StdRandom.uniform(N);
-        while (twinBoard.tileAt(i, j) == 0 || twinBoard.tileAt(n, m) == 0) {
+        while (twinBoard.tileAt(i, j) == 0 || twinBoard.tileAt(n, m) == 0 || (i == n && j == m)) {
             i = StdRandom.uniform(N);
             j = StdRandom.uniform(N);
             n = StdRandom.uniform(N);
@@ -194,7 +191,6 @@ public class Board {
         }
 
         twinBoard.swap(i, j, n, m);
-        twinBoard = newTwin;
         return twinBoard;
     }
 
@@ -208,12 +204,12 @@ public class Board {
     // unit testing (not graded)
     public static void main(String[] args) {
         int[][] nums1 = {
-                { 0, 1, 3 },
-                { 4, 2, 5 },
-                { 7, 8, 6 },
-                };
+                { 3, 0 },
+                { 2, 1 }
+        };
 
         Board b1 = new Board(nums1);
-        System.out.println(b1.hamming());
+        System.out.println(b1.toString());
+        System.out.println(b1.twin().toString());
     }
 }
