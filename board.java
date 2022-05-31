@@ -138,10 +138,12 @@ public class Board {
 
     // all neighboring boards
     public Iterable<Board> neighbors() {
+        boolean isEmpty = false;
         Stack<Board> boardStack = new Stack<Board>();
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < N && !isEmpty; i++) {
             for (int j = 0; j < N; j++) {
                 if (board[i][j] == 0) {
+                    isEmpty = true;
                     Board neighbor;
                     if (i > 0) { // Row above
                         neighbor = new Board(board);
@@ -166,6 +168,7 @@ public class Board {
                         neighbor.swap(i, j, i, j + 1);
                         boardStack.push(neighbor);
                     }
+                    break;
                 }
             }
         }
