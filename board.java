@@ -53,11 +53,12 @@ public class Board {
         int cnt = 0;
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (i == N - 1 && j == N - 1 && board[i][j] != 0)
+                if (i == N - 1 && j == N - 1 && board[i][j] != 0) {
                     cnt++;
-
-                if (board[i][j] != 0 && board[i][j] != i * N + j + 1)
+                }
+                else if (board[i][j] != 0 && board[i][j] != i * N + j + 1) {
                     cnt++;
+                }
             }
         }
 
@@ -98,11 +99,12 @@ public class Board {
     public boolean isGoal() {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (i == N - 1 && j == N - 1 && board[i][j] != 0)
+                if (i == N - 1 && j == N - 1 && board[i][j] != 0) {
                     return false;
-
-                if (board[i][j] != i * N + j + 1)
+                }
+                else if (board[i][j] != 0 && board[i][j] != i * N + j + 1) {
                     return false;
+                }
             }
         }
 
@@ -148,24 +150,28 @@ public class Board {
                     if (i > 0) { // Row above
                         neighbor = new Board(board);
                         neighbor.swap(i, j, i - 1, j);
+                        neighbor.twin();
                         boardStack.push(neighbor);
                     }
 
                     if (i < N - 1) { // Row below
                         neighbor = new Board(board);
                         neighbor.swap(i, j, i + 1, j);
+                        neighbor.twin();
                         boardStack.push(neighbor);
                     }
 
                     if (j > 0) { // Left column
                         neighbor = new Board(board);
                         neighbor.swap(i, j, i, j - 1);
+                        neighbor.twin();
                         boardStack.push(neighbor);
                     }
 
                     if (j < N - 1) { // Right column
                         neighbor = new Board(board);
                         neighbor.swap(i, j, i, j + 1);
+                        neighbor.twin();
                         boardStack.push(neighbor);
                     }
                     break;
@@ -204,13 +210,13 @@ public class Board {
 
     // unit testing (not graded)
     public static void main(String[] args) {
-        int[][] nums = {
-                { 8, 1, 3 },
-                { 4, 0, 2 },
-                { 7, 6, 5 },
+        int[][] nums1 = {
+                { 0, 1, 3 },
+                { 4, 2, 5 },
+                { 7, 8, 6 },
                 };
 
-        Board b = new Board(nums);
-        System.out.println(b.manhattan());
+        Board b1 = new Board(nums1);
+        System.out.println(b1.hamming());
     }
 }
