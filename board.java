@@ -3,7 +3,6 @@ import edu.princeton.cs.algs4.StdRandom;
 
 public class Board {
     private final int[][] board;
-    private final int[][] goal;
     private Board twin;
     private int N; //Linear dimension of the board
 
@@ -14,7 +13,6 @@ public class Board {
 
         /* Init boards */
         board = new int[N][N];
-        goal = new int[N][N];
         twin = null;
 
         /* Create copy of ctor argument */
@@ -23,15 +21,6 @@ public class Board {
                 board[i][j] = tiles[i][j];
             }
         }
-
-        /* Create goal board */
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                goal[i][j] = i * N + j + 1; // Row-major order
-            }
-        }
-
-        goal[N - 1][N - 1] = 0;
     }
 
     // string representation of this board
@@ -64,7 +53,10 @@ public class Board {
         int cnt = 0;
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (board[i][j] != goal[i][j] && board[i][j] != 0)
+                if (i == N - 1 && j == N - 1 && board[i][j] != 0)
+                    cnt++;
+
+                if (board[i][j] != 0 && board[i][j] != i * N + j + 1)
                     cnt++;
             }
         }
@@ -72,14 +64,29 @@ public class Board {
         return cnt;
     }
 
+    /* REFACTOR GOAL BOARD */
     // sum of Manhattan distances between tiles and goal
     public int manhattan() {
         int sum = 0;
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 if (board[i][j] != 0) {
-                    sum += Math.abs(manDistX(board[i][j]) - j) + Math
-                            .abs(manDistY(board[i][j]) - i);
+
+                    // Manhattan distance Y
+                    if (board[i][j] % N == 0) {
+                        sum += Math.abs((board[i][j] / N - 1) - i);
+                    }
+                    else {
+                        sum += Math.abs((board[i][j] / N) - i);
+                    }
+
+                    //Manhattan distance X
+                    if (board[i][j] % N == 0) {
+                        sum += Math.abs(N - 1 - j);
+                    }
+                    else {
+                        sum += Math.abs(board[i][j] - 1 - (board[i][j] / N) * N - j);
+                    }
                 }
             }
         }
@@ -91,7 +98,10 @@ public class Board {
     public boolean isGoal() {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (board[i][j] != goal[i][j])
+                if (i == N - 1 && j == N - 1 && board[i][j] != 0)
+                    return false;
+
+                if (board[i][j] != i * N + j + 1)
                     return false;
             }
         }
@@ -179,7 +189,7 @@ public class Board {
 
         twinBoard.swap(i, j, n, m);
         twin = twinBoard;
-        return twinBoard;
+        return twin;
     }
 
     // Helper function for neighbors()
@@ -189,52 +199,15 @@ public class Board {
         board[n][m] = temp;
     }
 
-    //Helper function of manhattan()
-    private int manDistY(int val) {
-        if (val == 0)
-            return N - 1;
-
-        int i = N - 1;
-        while (goal[i][0] > val) {
-            i--;
-        }
-        return i;
-    }
-
-    //Helper function of manhattan()
-    private int manDistX(int val) {
-        int j = 0, i = 0;
-        if (val > goal[N - 1][0]) {
-            i = 1;
-            while (val > goal[N - 1][i])
-                i++;
-        }
-        else {
-            while (val > goal[j][i]) {
-                if (val > goal[j][N - 1]) {
-                    j += 1;
-                }
-                else {
-                    while (val > goal[j][i])
-                        i++;
-                }
-            }
-        }
-        return i;
-    }
-
     // unit testing (not graded)
     public static void main(String[] args) {
-        int[][] tiles = {
+        int[][] nums = {
                 { 8, 1, 3 },
                 { 4, 0, 2 },
-                { 7, 6, 5 }
-        };
+                { 7, 6, 5 },
+                };
 
-        int[][] tiles2 = {
-                { 8, 1, 3 },
-                { 4, 0, 2 },
-                { 7, 6, 5 }
-        };
+        Board b = new Board(nums);
+        System.out.println(b.manhattan());
     }
 }
